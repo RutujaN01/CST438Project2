@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
-import { Home }from './pages/Home'
+import  LoginPage from './pages/LoginPage'
 
 export default function App() {
   const routes = [
-    { path: "/", Component: <Home />},
+    { path: "/", Component: <LoginPage />},
     ]
   return (
     <Routes>
