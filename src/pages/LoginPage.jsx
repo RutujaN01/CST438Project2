@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import googleLogo from '../assets/images/google.png';
 import headerImage from '../assets/images/logo.png'; // Add your header image path here
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+
 
 
 // Simplified component names like in React Native or React Native Web
@@ -24,6 +26,8 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate(); // Create the navigate function
+
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -39,6 +43,10 @@ const LoginPage = () => {
     console.log('Redirecting to forgot password page...');
   };
 
+  const handleSignIn = () => {
+    navigate('/signin'); // Navigate to the sign-in page
+  };
+
   const styles = {
     container: {
       display: 'flex',
@@ -49,7 +57,7 @@ const LoginPage = () => {
     },
     headerBar: {
         display: 'flex',
-      backgroundColor: '#2c2c42',
+      backgroundColor: '#2B2438',
       padding: '5px',
       alignItems: 'center',
       width: '100%',
@@ -148,7 +156,7 @@ const LoginPage = () => {
     },
     loginButton: {
       padding: '10px 20px',
-      backgroundColor: '#2c2c42',
+      backgroundColor: '#2B2438',
       color: '#fff',
       border: 'none',
       borderRadius: '5px',
@@ -171,7 +179,7 @@ const LoginPage = () => {
       },
     rightContainer: {
       flex: 1,
-      backgroundColor: '#2c2c42',
+      backgroundColor: '#2B2438',
       color: '#fff',
       padding: '50px',
       display: 'flex',
@@ -257,7 +265,7 @@ const LoginPage = () => {
         <View style={styles.rightContainer}>
           <Text style={styles.newHereTitle}>NEW HERE?</Text>
           <Text style={styles.newHereText}>Sign in and discover more</Text>
-          <Button style={styles.signInButton}>SIGN IN</Button>
+          <Button onClick={handleSignIn} style={styles.signInButton}>SIGN IN</Button>
         </View>
       </View>
     </View>
