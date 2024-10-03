@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, AppBar, Toolbar, InputBase, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';  // Add this import for navigation
 import SearchIcon from '@mui/icons-material/Search';
 import logo from '../assets/logo.png'; 
 import sampleImage1 from '../assets/phones.webp'; 
@@ -14,6 +15,13 @@ const HomePage = () => {
     { image: sampleImage3, name: 'TV' },
     { image: sampleImage4, name: 'GADGETS' },
   ];
+
+  const navigate = useNavigate(); 
+
+  const handleLoginNavigation = () => {
+    console.log("Navigating to login page");
+    navigate('/login');
+};
 
   return (
     <Box>
@@ -65,7 +73,8 @@ const HomePage = () => {
             </Box>
 
             {/* Login and Admin Buttons */}
-            <Button 
+            <Button onClick={handleLoginNavigation}
+
               sx={{ 
                 marginRight: '8px', 
                 backgroundColor: 'transparent', 
