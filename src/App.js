@@ -1,18 +1,18 @@
-import { Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage'; 
-import LandingPage from './pages/LandingPage'; 
+import { Routes, Route } from 'react-router-dom'
+import  LoginPage from './pages/LoginPage'
 
 export default function App() {
-  const routes = [
-    { path: "/", Component: <LandingPage /> }, 
-    { path: "/home", Component: <HomePage /> }, 
-  ];
+  console.log("Current Path:", window.location.pathname); // Log current path
 
+  const routes = [
+    { path: "/", Component: <LoginPage />},
+    ]
   return (
     <Routes>
       {routes.map(({ path, Component }) => (
-        <Route key={path} path={path} element={Component} />
-      ))}
+        <Route path={path} element={Component} />
+        ))
+      }
     </Routes>
   );
 }
