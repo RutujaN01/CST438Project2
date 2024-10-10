@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import googleLogo from '../assets/images/google.png';
-import headerImage from '../assets/images/logo.png'; // Add your header image path here
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import headerImage from '../assets/images/logo.png'; 
+import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios';
 
 
 
-// Simplified component names like in React Native or React Native Web
 const View = ({ style, children }) => <div style={style}>{children}</div>;
 const Text = ({ style, children }) => <p style={style}>{children}</p>;
 const Button = ({ onClick, style, children }) => (
@@ -26,187 +26,39 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const navigate = useNavigate(); // Create the navigate function
+  const navigate = useNavigate(); 
 
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    console.log(`ENV: ${process.env.REACT_APP_BACKEND_BASE_URL}`);  
+    console.log(username)
+    console.log(password)
+    const res = await axios.post(`http://127.0.0.1:8000/users/login/`, {
+      "username": username,
+      "password": password
+    })
+
+    localStorage.setItem("access", res.data.access)
+    
     console.log('Login attempt with:', { username, password });
   };
+
+  //const data = axios.post(`${process.env.REACT_APP_API_BASE}/users/login`, {"username": username, "password": password});
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   const handleForgotPassword = () => {
-    // Implement forgot password functionality
     console.log('Redirecting to forgot password page...');
   };
 
   const handleSignIn = () => {
-    navigate('/signin'); // Navigate to the sign-in page
+    navigate('/signin');
   };
 
-  const styles = {
-    container: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100vw',
-      height: '100vh',
-      backgroundColor: '#E5E5E5',
-    },
-    headerBar: {
-        display: 'flex',
-      backgroundColor: '#2B2438',
-      padding: '5px',
-      alignItems: 'center',
-      width: '100%',
-      height: '60px',
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      zIndex: 1000, // Ensures the header is above other elements
-      justifyContent: 'space-between', // Space between elements
-
-    },
-    headerImage: {
-        width: '150px', // Adjust the width as needed
-        height: '150px', // Adjust the height as needed
-        position: 'fixed',
-        marginLeft: '-15px', // Add left margin if neede
-      },
-      adminText: {
-        color: '#fff',
-        marginLeft: '93%', // Add margin to the right for spacing
-        fontSize: '16px',
-        textDecoration: 'underline', // Makes it look like a link
-        cursor: 'pointer', // Makes it clear that the text is clickable
-
-      },
-    mainContent: {
-      display: 'flex',
-      flex: 1,
-      paddingTop: '60px', // Padding to accommodate fixed header
-    },
-    leftContainer: {
-      flex: 2,
-      padding: '50px',
-      backgroundColor: '#f5f5f5',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    logo: {
-      width: '150px',
-      marginBottom: '30px',
-    },
-    title: {
-      fontSize: '28px',
-      fontWeight: 'bold',
-      marginBottom: '30px',
-      marginTop: '-150px',
-    },
-    googleButton: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#fff',
-      padding: '10px 20px',
-      borderRadius: '5px',
-      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-      marginBottom: '20px',
-      cursor: 'pointer',
-    },
-    googleIcon: {
-      width: '20px',
-      marginRight: '10px',
-    },
-
-    divider: {
-        display: 'flex',
-        alignItems: 'center',
-        marginTop: '8px',
-
-        marginBottom: '8px',
-      },
-    
-      orText: {
-        margin: '0 10px', // Space around the OR text
-        fontWeight: 'bold',
-        fontSize: '13px',
-      },
-    form: {
-      width: '100%',
-      maxWidth: '400px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    label: {
-      marginBottom: '5px',
-      fontWeight: 'bold',
-    },
-    input: {
-      width: '100%',
-      padding: '10px',
-      marginBottom: '20px',
-      borderRadius: '5px',
-      border: '1px solid #ccc',
-    },
-    loginButton: {
-      padding: '10px 20px',
-      backgroundColor: '#2B2438',
-      color: '#fff',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      width: '100%',
-      marginTop:'15px',
-    },
-    optionsContainer: {
-        display: 'flex',
-        justifyContent: 'space-between', // Aligns children with space between
-        width: '100%',
-        fontSize:'12px',
-
-      },
-      forgotPassword: {
-        color: '#007BFF',
-        textDecoration: 'underline',
-        cursor: 'pointer',
-        marginTop:'0px',
-      },
-    rightContainer: {
-      flex: 1,
-      backgroundColor: '#2B2438',
-      color: '#fff',
-      padding: '50px',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'top',
-      alignItems: 'center',
-    },
-    newHereTitle: {
-      fontSize: '40px',
-      fontWeight: 'bold',
-      marginTop: '230px',
-      marginBottom: '0px',
-    },
-    newHereText: {
-        marginTop: '5px',
-      marginBottom: '30px',
-    },
-    signInButton: {
-      padding: '10px 20px',
-      backgroundColor: '#fff',
-      color: '#000',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-    },
-  };
-
+  
   return (
     <View style={styles.container}>
       {/* Header Bar */}
@@ -257,7 +109,7 @@ const LoginPage = () => {
               Forgot Password?
             </Text>
           </View>
-          <Button type="submit" style={styles.loginButton}>LOGIN</Button>
+          <Button type="submit" style={styles.loginButton} onClick={handleLogin}>LOGIN</Button>
         </View>
       </View>
 
@@ -271,5 +123,166 @@ const LoginPage = () => {
     </View>
   );
 };
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: '#E5E5E5',
+  },
+  headerBar: {
+      display: 'flex',
+    backgroundColor: '#2B2438',
+    padding: '5px',
+    alignItems: 'center',
+    width: '100%',
+    height: '60px',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    zIndex: 1000, 
+    justifyContent: 'space-between', 
+
+  },
+  headerImage: {
+      width: '150px', 
+      height: '150px', 
+      position: 'fixed',
+      marginLeft: '-15px', 
+    },
+    adminText: {
+      color: '#fff',
+      marginLeft: '93%', 
+      fontSize: '16px',
+      textDecoration: 'underline', 
+      cursor: 'pointer', 
+
+    },
+  mainContent: {
+    display: 'flex',
+    flex: 1,
+    paddingTop: '60px', 
+  },
+  leftContainer: {
+    flex: 2,
+    padding: '50px',
+    backgroundColor: '#f5f5f5',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    width: '150px',
+    marginBottom: '30px',
+  },
+  title: {
+    fontSize: '28px',
+    fontWeight: 'bold',
+    marginBottom: '30px',
+    marginTop: '-150px',
+  },
+  googleButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+    marginBottom: '20px',
+    cursor: 'pointer',
+  },
+  googleIcon: {
+    width: '20px',
+    marginRight: '10px',
+  },
+
+  divider: {
+      display: 'flex',
+      alignItems: 'center',
+      marginTop: '8px',
+
+      marginBottom: '8px',
+    },
+  
+    orText: {
+      margin: '0 10px', 
+      fontWeight: 'bold',
+      fontSize: '13px',
+    },
+  form: {
+    width: '100%',
+    maxWidth: '400px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  label: {
+    marginBottom: '5px',
+    fontWeight: 'bold',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    marginBottom: '20px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+  },
+  loginButton: {
+    padding: '10px 20px',
+    backgroundColor: '#2B2438',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    width: '100%',
+    marginTop:'15px',
+  },
+  optionsContainer: {
+      display: 'flex',
+      justifyContent: 'space-between', 
+      width: '100%',
+      fontSize:'12px',
+
+    },
+    forgotPassword: {
+      color: '#007BFF',
+      textDecoration: 'underline',
+      cursor: 'pointer',
+      marginTop:'0px',
+    },
+  rightContainer: {
+    flex: 1,
+    backgroundColor: '#2B2438',
+    color: '#fff',
+    padding: '50px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'top',
+    alignItems: 'center',
+  },
+  newHereTitle: {
+    fontSize: '40px',
+    fontWeight: 'bold',
+    marginTop: '230px',
+    marginBottom: '0px',
+  },
+  newHereText: {
+      marginTop: '5px',
+    marginBottom: '30px',
+  },
+  signInButton: {
+    padding: '10px 20px',
+    backgroundColor: '#fff',
+    color: '#000',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  },
+};
+
 
 export default LoginPage;
