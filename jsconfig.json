@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": "untitled folder/src",
     "incremental": true
   },
-  "include": ["src"],
+  "include": [
+    "untitled folder/src"
+  ],
   "exclude": ["node_modules", "build", "functions"]
 }

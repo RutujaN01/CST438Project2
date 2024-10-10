@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import LoginPage from '../pages/Loginpage';
+import LoginPage from '../pages/LoginPage';
 import '@testing-library/jest-dom'; 
 
 describe('LoginPage', () => {

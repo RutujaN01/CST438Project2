@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Home } from '../pages/Home'
+import { Home } from './pages/Home'
 import { describe, it, expect, beforeEach } from '@jest/globals'
 
 describe('Home', () => {
