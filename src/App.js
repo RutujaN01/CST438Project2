@@ -4,7 +4,6 @@ import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import WishlistPage from './pages/WishlistPage';
 import LandingPage from './pages/LandingPage'; 
-import WishlistPage from './pages/WishlistPage'; 
 
 // require('dotenv').config()
 export default function App() {
@@ -16,8 +15,6 @@ export default function App() {
     { path: "/home", Component: <HomePage /> }, 
     { path: "/signup", element: <SignupPage /> },
     { path: "/login", element: <LoginPage /> },
-    { path: "/wishlist", element: <WishlistPage /> },
-
 
   ];
 
