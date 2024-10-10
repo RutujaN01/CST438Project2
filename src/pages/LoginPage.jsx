@@ -44,7 +44,7 @@ const LoginPage = () => {
   };
 
   const handleSignIn = () => {
-    navigate('/signin'); // Navigate to the sign-in page
+    navigate('/signup'); // Navigate to the sign-in page
   };
 
   const styles = {
