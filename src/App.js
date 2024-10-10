@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import HomePage from './pages/HomePage'; 
+import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import WishlistPage from './pages/WishlistPage';
@@ -10,9 +10,9 @@ export default function App() {
   console.log("Current Path:", window.location.pathname); 
 
   const routes = [
+    { path: "/", element: <LandingPage /> },
     { path: "/wishlist", element: <WishlistPage /> },
-    { path: "/", Component: <LandingPage /> }, 
-    { path: "/home", Component: <HomePage /> }, 
+    { path: "/home", element: <HomePage /> },
     { path: "/signup", element: <SignupPage /> },
     { path: "/login", element: <LoginPage /> },
 
