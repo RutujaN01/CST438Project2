@@ -40,14 +40,12 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Password strength validation
     const password = formData.password;
     const isValidPassword = validatePasswordStrength(password);
     
     if (!isValidPassword) {
-        // Provide feedback to the user
         alert('Password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers, and special characters.');
-        return; // Stop form submission if the password is not strong enough
+        return; 
     }
 
     console.dir(formData);
@@ -64,7 +62,6 @@ const SignupPage = () => {
     console.log("Sign Up form data:", formData);
 };
 
-// Function to validate password strength
 const validatePasswordStrength = (password) => {
     const passwordStrengthRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordStrengthRegex.test(password);

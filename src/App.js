@@ -5,15 +5,12 @@ import LoginPage from './pages/LoginPage';
 import WishlistPage from './pages/WishlistPage';
 import LandingPage from './pages/LandingPage'; 
 
-
-
 // require('dotenv').config()
 export default function App() {
   console.log("Current Path:", window.location.pathname); 
 
   const routes = [
-
-    { path: "/wishlist", element: <WishlistPage /> }
+    { path: "/wishlist", element: <WishlistPage /> },
     { path: "/", Component: <LandingPage /> }, 
     { path: "/home", Component: <HomePage /> }, 
     { path: "/signup", element: <SignupPage /> },
