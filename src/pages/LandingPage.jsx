@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box } from '@mui/material'; 
 import { useNavigate } from 'react-router-dom'; 
-import logo from '../assets/logo.png'; 
+import logo from '../assets/images/logo.png'; 
 
 const LandingPage = () => {
   const navigate = useNavigate(); 
