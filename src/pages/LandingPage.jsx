@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Box } from '@mui/material'; 
 import { useNavigate } from 'react-router-dom'; 
 import logo from '../assets/images/logo.png'; 
@@ -6,14 +6,14 @@ import logo from '../assets/images/logo.png';
 const LandingPage = () => {
   const navigate = useNavigate(); 
 
-  const handleAnimationEnd = () => {
+  const handleAnimationEnd = useCallback(() => {
     navigate('/home'); 
-  };
+  }, [navigate]); 
 
   useEffect(() => {
     const timeout = setTimeout(handleAnimationEnd, 3000); 
     return () => clearTimeout(timeout); 
-  }, []);
+  }, [handleAnimationEnd]); 
 
   return (
     <Box

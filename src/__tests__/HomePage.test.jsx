@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import HomePage from '../pages/HomePage'; // Corrected import statement
-//import '@testing-library/jest-dom'; // Ensure this import is included
+import HomePage from '../pages/HomePage'; 
+import '@testing-library/jest-dom'; 
 
 describe('HomePage', () => {
   beforeEach(() => {
