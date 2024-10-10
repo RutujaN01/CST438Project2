@@ -3,7 +3,6 @@ import HomePage from './pages/HomePage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import LandingPage from './pages/LandingPage'; 
-import WishlistPage from './pages/WishlistPage'; 
 
 
 export default function App() {
@@ -15,8 +14,6 @@ export default function App() {
     { path: "/home", Component: <HomePage /> }, 
     { path: "/signup", element: <SignupPage /> },
     { path: "/login", element: <LoginPage /> },
-    { path: "/wishlist", element: <WishlistPage /> },
-
 
   ];
 
