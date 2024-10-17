@@ -31,18 +31,47 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(`ENV: ${process.env.REACT_APP_BACKEND_BASE_URL}`);  
-    console.log(username)
-    console.log(password)
-    const res = await axios.post(`http://127.0.0.1:8000/users/login/`, {
-      "username": username,
-      "password": password
-    })
+    try {
+        const res = await axios.post(`http://127.0.0.1:8000/users/login/`, {
+            username: username,
+            password: password
+        });
 
-    localStorage.setItem("access", res.data.access)
-    
-    console.log('Login attempt with:', { username, password });
-  };
+        const currentUser = res.data.user;  // The current logged-in user
+        console.log('Login successful:', currentUser);
+
+        // Fetch existing users from localStorage
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Check if the user already exists in localStorage
+        const userExists = users.find(user => user.username === currentUser.username);
+
+        if (!userExists) {
+            // Add the current user to the list if they don't already exist
+            users.push({
+                id: currentUser.id,  // Add an ID for each user to make editing and deleting easier
+                username: currentUser.username,
+                email: currentUser.email,  // Assuming email is part of the user data
+                roles: currentUser.roles
+            });
+            localStorage.setItem('users', JSON.stringify(users));  // Store the updated list in localStorage
+        }
+
+        // Store tokens for the logged-in user
+        localStorage.setItem("access", res.data.access);
+        localStorage.setItem("refresh", res.data.refresh);
+        localStorage.setItem("user", JSON.stringify(currentUser));
+
+        // Check user roles and navigate accordingly
+        if (currentUser.roles.includes('admin')) {
+            navigate('/admin');  // Redirect to admin page for admins
+        } else {
+            navigate('/home');  // Redirect to home page for regular users
+        }
+    } catch (error) {
+        console.error('Login failed:', error);
+    }
+};
 
   //const data = axios.post(`${process.env.REACT_APP_API_BASE}/users/login`, {"username": username, "password": password});
 

@@ -40,7 +40,7 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const password = formData.password;
+    const { password, confirmPassword } = formData;
     const isValidPassword = validatePasswordStrength(password);
     
     if (!isValidPassword) {
@@ -48,19 +48,31 @@ const SignupPage = () => {
         return; 
     }
 
-    console.dir(formData);
-    const data = await axios.post(`http://127.0.0.1:8000/users/newuser/`, {
-        "username": formData.fullName,
-        "password": formData.password,
-        "email": formData.email
-    });
+    if (password !== confirmPassword) {
+      alert('Passwords do not match. Please try again.');
+      return;
+  }
 
-    console.dir(data);
+    console.dir(formData);
     
-    // Save refresh, access, and user data to local storage
-    // Handle form submission logic
-    console.log("Sign Up form data:", formData);
-};
+
+    try {
+      const data = await axios.post(`http://127.0.0.1:8000/users/newuser/`, {
+          "username": formData.fullName,
+          "password": formData.password,
+          "email": formData.email
+      });
+      
+      console.dir(data);
+      navigate('/homepage');
+      
+      // Save refresh, access, and user data to local storage
+      // Handle form submission logic
+      console.log("Sign Up form data:", formData);
+    } catch (error) {
+      console.error("Error during sign up:", error);
+    }
+  };
 
 const validatePasswordStrength = (password) => {
     const passwordStrengthRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
