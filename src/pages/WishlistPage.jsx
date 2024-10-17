@@ -1,5 +1,5 @@
 import React from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const View = ({ style, children }) => <div style={style}>{children}</div>;
 const Text = ({ style, children }) => <p style={style}>{children}</p>;
@@ -8,7 +8,7 @@ const Button = ({ onClick, style, children }) => (
 );
 
 const WishlistPage = () => {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const wishlistItems = [
     { name: 'Apple iPhone 14, 128GB, Blue', price: '$999.00', status: 'In Stock' },

@@ -13,7 +13,7 @@ const LandingPage = () => {
   useEffect(() => {
     const timeout = setTimeout(handleAnimationEnd, 3000); 
     return () => clearTimeout(timeout); 
-  }, [handleAnimationEnd]); 
+  }, [handleAnimationEnd]);
 
   return (
     <Box
