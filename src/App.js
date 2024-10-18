@@ -5,20 +5,23 @@ import LoginPage from './pages/LoginPage';
 import WishlistPage from './pages/WishlistPage';
 import LandingPage from './pages/LandingPage'; 
 import AdminPage from 'pages/AdminPage';
+import ProfilePage from 'pages/ProfilePage';
+import PrivateRoute from './PrivateRoute'; 
 
-// require('dotenv').config()
 export default function App() {
-  console.log("Current Path:", window.location.pathname); 
+  console.log("Current Path:", window.location.pathname);
 
   const routes = [
     { path: "/wishlist", element: <WishlistPage /> },
     { path: "/", element: <LandingPage /> }, 
-    { path: "/home", element: <HomePage /> }, 
     { path: "/signin", element: <SignupPage /> },
     { path: "/login", element: <LoginPage /> },
+  ];
+
+  const protectedRoutes = [
+    { path: "/home", element: <HomePage /> }, 
     { path: "/admin", element: <AdminPage /> },
-
-
+    { path: "/profile", element: <ProfilePage /> },
   ];
 
   return (
@@ -26,7 +29,11 @@ export default function App() {
       {routes.map(({ path, element }) => (
         <Route key={path} path={path} element={element} />
       ))}
-      {/* Catch-all route for invalid paths */}
+
+      {protectedRoutes.map(({ path, element }) => (
+        <Route key={path} path={path} element={<PrivateRoute element={element} />} />
+      ))}
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

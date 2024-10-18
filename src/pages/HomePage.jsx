@@ -1,57 +1,94 @@
-import React from 'react';
-import { Box, AppBar, Toolbar, InputBase, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';  // Add this import for navigation
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Box, AppBar, Toolbar, InputBase, Button, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
-import logo from '../assets/images/logo.png'; 
-import sampleImage1 from '../assets/phones.webp'; 
-import sampleImage2 from '../assets/Tablets.jpeg'; 
-import sampleImage3 from '../assets/TV.jpeg'; 
-import sampleImage4 from '../assets/Gadgets.jpeg'; 
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import logo from '../assets/images/logo.png';
+import sampleImage1 from '../assets/phones.webp';
+import sampleImage2 from '../assets/Tablets.jpeg';
+import sampleImage3 from '../assets/TV.jpeg';
+import sampleImage4 from '../assets/Gadgets.jpeg';
+import bannerImage from '../assets/Homepage.png';
 
 const HomePage = () => {
-  const boxesContent = [
-    { image: sampleImage1, name: 'PHONES' },
-    { image: sampleImage2, name: 'TABLETS' },
-    { image: sampleImage3, name: 'TV' },
-    { image: sampleImage4, name: 'GADGETS' },
-  ];
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
+  const accessToken = `Bearer ${localStorage.getItem("access")}`;
 
-  const navigate = useNavigate(); 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('access');
+      if (!token) {
+        console.log("No token found, redirecting to login");
+        navigate('/login');
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/users/get_current_user/`, {
+          headers: {
+            "Authorization": accessToken
+          }
+        });
+        setUserData(response.data.data);
+      } catch (error) {
+        console.error('Error fetching user data', error);
+        localStorage.removeItem('access');
+        navigate('/login');
+      }
+    };
+
+    fetchUserData();
+  }, [navigate, accessToken]);
 
   const handleLoginNavigation = () => {
-    console.log("Navigating to login page");
     navigate('/login');
-};
+  };
+
+  const handleSignIn = () => {
+    navigate('/signup');
+  };
+
+  const handleWishlistPage = () => {
+    navigate('/wishlist');
+  };
+
+  const handleCategoryClick = (categoryName) => {
+    navigate(`/category/${categoryName}`);
+  };
+
+  const boxesContent = [
+    { image: sampleImage1, name: 'phones' }, 
+    { image: sampleImage2, name: 'tablets' },
+    { image: sampleImage3, name: 'tv' }, 
+    { image: sampleImage4, name: 'gadgets' },
+  ];
 
   return (
     <Box>
-      {/* Header Bar */}
       <AppBar
-        position="fixed" 
+        position="fixed"
         sx={{
-          display: 'flex', 
-          backgroundColor: '#2c2c42', 
-          padding: '5px', 
-          alignItems: 'center', 
-          width: '100%', 
-          height: '60px', 
-          top: 0, 
-          left: 0, 
-          zIndex: 1000, 
+          display: 'flex',
+          backgroundColor: '#2C2C42',
+          padding: '5px',
+          alignItems: 'center',
+          width: '100%',
+          height: '60px',
+          top: 0,
+          left: 0,
+          zIndex: 1000,
           justifyContent: 'space-between',
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between', width: '100%' }}>
-          {/* Logo on the left side */}
-          <img 
-            src={logo} 
-            alt="TechMart Logo" 
-            style={{ width: '140px', height: 'auto', marginRight: '10px' }} 
+          <img
+            src={logo}
+            alt="TechMart Logo"
+            style={{ width: '140px', height: 'auto', marginRight: '10px' }}
           />
-
-          {/* Search Bar and Buttons Container */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* Search Bar */}
             <Box
               sx={{
                 display: 'flex',
@@ -59,115 +96,155 @@ const HomePage = () => {
                 backgroundColor: '#fff',
                 borderRadius: '6px',
                 padding: '0 8px',
-                width: '400px', 
+                width: '400px',
                 marginRight: '16px',
               }}
             >
-              <InputBase 
-                placeholder="Search..." 
-                sx={{ flex: 1, padding: '4px' }} 
-              />
+              <InputBase placeholder="Search..." sx={{ flex: 1, padding: '4px' }} />
               <Button sx={{ padding: '0' }}>
                 <SearchIcon />
               </Button>
             </Box>
-
-            {/* Login and Admin Buttons */}
-            <Button onClick={handleLoginNavigation}
-
-              sx={{ 
-                marginRight: '8px', 
-                backgroundColor: 'transparent', 
-                border: 'none', 
-                color: '#f1c40f', 
-                padding: '0', 
-                '&:hover': {
-                  backgroundColor: 'transparent', 
-                },
-              }}
-            >
-              Login
+            <Button onClick={handleWishlistPage} sx={{ color: '#FDFEFE', marginRight: '16px' }}>
+              <FavoriteIcon />
             </Button>
-            <Button 
-              sx={{ 
-                backgroundColor: 'transparent', 
-                border: 'none', 
-                color: '#f1c40f', 
-                padding: '0', 
-                '&:hover': {
-                  backgroundColor: 'transparent', 
-                },
-              }}
-            >
-              Admin
-            </Button>
+            {userData ? (
+              <Typography variant="h6" sx={{ color: '#FDFEFE', marginRight: '16px' }}>
+                Welcome, {userData.username}!
+              </Typography>
+            ) : (
+              <>
+                <Button onClick={handleLoginNavigation} sx={{ color: '#FDFEFE', marginRight: '8px' }}>
+                  Login
+                </Button>
+                <Button sx={{ backgroundColor: 'transparent', border: 'none', color: '#FDFEFE ' }}>
+                  Admin
+                </Button>
+              </>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
-
-      {/* Main Content */}
       <Box
         sx={{
-          position: 'absolute',
-          left: '50%', 
-          top: '103px',
-          transform: 'translateX(-50%)', 
+          position: 'relative',
+          marginTop: '60px',
+          width: '100%',
+          height: '850px',
+          overflow: 'hidden',
+        }}
+      >
+        <img
+          src={bannerImage}
+          alt="Banner"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+      </Box>
+      <Box
+        sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          padding: '80px 0',
         }}
       >
-        {/* Standing Rectangle Boxes */}
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'space-between', 
-            width: '90%', 
-            marginTop: '80px',
+            justifyContent: 'space-between',
+            width: '90%',
+            marginTop: '40px',
           }}
         >
           {boxesContent.map((item, index) => (
             <Box
               key={index}
               sx={{
-                backgroundColor: '#2c2c42',
-                width: '400px', 
-                height: '400px', 
-                borderRadius: '25px', 
-                margin: '0 30px', 
+                backgroundColor: '#2C2C42',
+                width: '400px',
+                height: '400px',
+                borderRadius: '25px',
+                margin: '0 30px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              {/* Image */}
-              <img 
-                src={item.image} 
-                alt={item.name} 
-                style={{ 
-                  width: '300px', 
-                  height: '200px', 
-                  borderRadius: '8px', 
-                }} 
+              <img
+                src={item.image}
+                alt={item.name}
+                style={{
+                  width: '300px',
+                  height: '200px',
+                  borderRadius: '8px',
+                }}
               />
-              {/* Name Below the Image as Button */}
-              <Button 
-                variant="text" 
-                sx={{ 
-                  color: '#f1c40f', 
-                  marginTop: '10px', 
+              <Button
+                variant="text"
+                onClick={() => handleCategoryClick(item.name)}
+                sx={{
+                  color: '#FDFEFE ',
+                  marginTop: '10px',
                   textTransform: 'none',
                   '&:hover': {
-                    backgroundColor: 'transparent', 
+                    backgroundColor: 'transparent',
                   },
                 }}
               >
-                {item.name}
+                {item.name.toUpperCase()} {/* Display in uppercase for the button */}
               </Button>
             </Box>
           ))}
         </Box>
+        <Typography
+          variant="h2"
+          sx={{
+            position: 'absolute',
+            bottom: '25%',
+            left: '45%',
+            fontSize: '27px',
+            transform: 'translateX(-50%)',
+            color: '#fff',
+            fontWeight: 'bold',
+            textAlign: 'center',
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)',
+          }}
+        >
+          Discover Your Next Gadget in TechMart
+        </Typography>
+        <Button
+          onClick={handleSignIn}
+          sx={{
+            position: 'absolute',
+            bottom: '17%',
+            left: '45%',
+            transform: 'translateX(-50%)',
+            backgroundColor: '#797D7F ',
+            color: '#fff',
+            padding: '15px 20px',
+            '&:hover': {
+              backgroundColor: '#797D7F',
+            },
+          }}
+        >
+          Start Now
+        </Button>
+      </Box>
+      <Box
+        component="footer"
+        sx={{
+          backgroundColor: '#2C2C42',
+          color: '#FDFEFE',
+          padding: '20px 0',
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="body1">© 2024 TechMart. All Rights Reserved.</Typography>
       </Box>
     </Box>
   );

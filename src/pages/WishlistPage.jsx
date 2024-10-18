@@ -1,11 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const View = ({ style, children }) => <div style={style}>{children}</div>;
-const Text = ({ style, children }) => <p style={style}>{children}</p>;
-const Button = ({ onClick, style, children }) => (
-  <button onClick={onClick} style={style}>{children}</button>
-);
+import { FaUserCircle } from 'react-icons/fa'; 
 
 const WishlistPage = () => {
   const navigate = useNavigate();
@@ -21,45 +16,53 @@ const WishlistPage = () => {
     }
   };
 
-  
-
   return (
-    <View style={styles.container}>
+    <div style={styles.container}>
       {/* Header */}
-      <View style={styles.headerBar}>
-        <Text style={styles.headerText}>My Wishlist</Text>
-      </View>
+      <div style={styles.headerBar}>
+        <p style={styles.headerText}>My Wishlist</p>
+
+        {/* User Icon */}
+        <FaUserCircle style={styles.userIcon} onClick={() => navigate('/profile')} />
+      </div>
 
       {/* Main Content */}
-      <View style={styles.mainContent}>
-        {/* Table Header */}
-        <View style={styles.tableHeader}>
-          <Text style={styles.productName}>Product Name</Text>
-          <Text style={styles.productPrice}>Price</Text>
-          <Text style={styles.productStatus}>Stock Status</Text>
-        </View>
-
-        {/* Wishlist Items */}
-        {wishlistItems.map((item, index) => (
-          <View key={index} style={styles.tableRow}>
-            <Text style={styles.productName}>{item.name}</Text>
-            <Text style={styles.productPrice}>{item.price}</Text>
-            <Text style={styles.productStatus}>{item.status}</Text>
-            <Button
-              onClick={() => handleAddToCart(item)}
-              style={
-                item.status === 'In Stock'
-                  ? styles.addButton
-                  : { ...styles.addButton, ...styles.addButtonDisabled }
-              }
-              disabled={item.status !== 'In Stock'}
-            >
-              Add to cart
-            </Button>
-          </View>
-        ))}
-      </View>
-    </View>
+      <div style={styles.mainContent}>
+        {/* Table */}
+        <table style={styles.table}>
+          <thead>
+            <tr style={styles.tableHeader}>
+              <th style={styles.tableHeaderText}>Product Name</th>
+              <th style={styles.tableHeaderText}>Price</th>
+              <th style={styles.tableHeaderText}>Stock Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {wishlistItems.map((item, index) => (
+              <tr key={index} style={styles.tableRow}>
+                <td style={styles.productName}>{item.name}</td>
+                <td style={styles.productPrice}>{item.price}</td>
+                <td style={styles.productStatus}>{item.status}</td>
+                <td>
+                  <button
+                    onClick={() => handleAddToCart(item)}
+                    style={
+                      item.status === 'In Stock'
+                        ? styles.addButton
+                        : { ...styles.addButton, ...styles.addButtonDisabled }
+                    }
+                    disabled={item.status !== 'In Stock'}
+                  >
+                    Add to cart
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 
@@ -82,12 +85,19 @@ const styles = {
     top: 0,
     left: 0,
     zIndex: 1000,
-    justifyContent: 'center',
+    justifyContent: 'space-between', // Change to space-between
   },
   headerText: {
     color: '#fff',
     fontSize: '24px',
     fontWeight: 'bold',
+    marginLeft: '670px',
+  },
+  userIcon: {
+    color: '#fff',
+    fontSize: '30px',
+    cursor: 'pointer',
+    marginRight: '20px', 
   },
   mainContent: {
     display: 'flex',
@@ -96,30 +106,31 @@ const styles = {
     paddingLeft: '30px',
     paddingRight: '30px',
   },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+  },
   tableHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    fontWeight: 'bold',
-    fontSize: '18px',
-    borderBottom: '2px solid #ccc',
-    paddingBottom: '10px',
-    marginBottom: '20px',
+    backgroundColor: '#2B2438',
+    color: '#fff',
+  },
+  tableHeaderText: {
+    padding: '10px',
+    textAlign: 'left',
   },
   tableRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
     borderBottom: '1px solid #ccc',
-    padding: '10px 0',
   },
   productName: {
-    flex: 2,
+    padding: '10px',
+    textAlign: 'left',
   },
   productPrice: {
-    flex: 1,
+    padding: '10px',
     textAlign: 'center',
   },
   productStatus: {
-    flex: 1,
+    padding: '10px',
     textAlign: 'center',
   },
   addButton: {
@@ -129,7 +140,6 @@ const styles = {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
-    flex: 1,
   },
   addButtonDisabled: {
     backgroundColor: '#888888',
