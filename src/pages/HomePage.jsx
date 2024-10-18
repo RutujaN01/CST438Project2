@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, AppBar, Toolbar, InputBase, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
-import FavoriteIcon from '@mui/icons-material/Favorite'; 
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import logo from '../assets/images/logo.png';
 import sampleImage1 from '../assets/phones.webp';
 import sampleImage2 from '../assets/Tablets.jpeg';
@@ -12,27 +12,28 @@ import bannerImage from '../assets/Homepage.png';
 
 const HomePage = () => {
   const boxesContent = [
-    { image: sampleImage1, name: 'PHONES' },
-    { image: sampleImage2, name: 'TABLETS' },
-    { image: sampleImage3, name: 'TV' },
-    { image: sampleImage4, name: 'GADGETS' },
+    { image: sampleImage1, name: 'phones' }, 
+    { image: sampleImage2, name: 'tablets' }, 
+    { image: sampleImage3, name: 'tv' }, 
+    { image: sampleImage4, name: 'gadgets' }, 
   ];
 
   const navigate = useNavigate();
 
   const handleLoginNavigation = () => {
-    console.log("Navigating to login page");
     navigate('/login');
   };
 
   const handleSignIn = () => {
-    console.log("Navigating to signup page");
     navigate('/signup');
   };
 
   const handleWishlistPage = () => {
-    console.log("Navigating to wishlist page.");
     navigate('/wishlist');
+  };
+
+  const handleCategoryClick = (categoryName) => {
+    navigate(`/category/${categoryName}`);
   };
 
   return (
@@ -54,16 +55,13 @@ const HomePage = () => {
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between', width: '100%' }}>
-          {/* Logo on the left side */}
           <img
             src={logo}
             alt="TechMart Logo"
             style={{ width: '140px', height: 'auto', marginRight: '10px' }}
           />
 
-          {/* Search Bar and Buttons Container */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* Search Bar */}
             <Box
               sx={{
                 display: 'flex',
@@ -75,21 +73,16 @@ const HomePage = () => {
                 marginRight: '16px',
               }}
             >
-              <InputBase
-                placeholder="Search..."
-                sx={{ flex: 1, padding: '4px' }}
-              />
+              <InputBase placeholder="Search..." sx={{ flex: 1, padding: '4px' }} />
               <Button sx={{ padding: '0' }}>
                 <SearchIcon />
               </Button>
             </Box>
 
-            {/* Heart Icon */}
             <Button onClick={handleWishlistPage} sx={{ color: '#fdfefe', marginRight: '16px' }}>
               <FavoriteIcon />
             </Button>
 
-            {/* Login and Admin Buttons */}
             <Button
               onClick={handleLoginNavigation}
               sx={{
@@ -122,7 +115,6 @@ const HomePage = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Image After Header */}
       <Box
         sx={{
           position: 'relative',
@@ -143,7 +135,6 @@ const HomePage = () => {
         />
       </Box>
 
-      {/* Main Content */}
       <Box
         sx={{
           display: 'flex',
@@ -152,7 +143,6 @@ const HomePage = () => {
           padding: '80px 0',
         }}
       >
-        {/* Standing Rectangle Boxes */}
         <Box
           sx={{
             display: 'flex',
@@ -176,7 +166,6 @@ const HomePage = () => {
                 justifyContent: 'center',
               }}
             >
-              {/* Image */}
               <img
                 src={item.image}
                 alt={item.name}
@@ -186,9 +175,9 @@ const HomePage = () => {
                   borderRadius: '8px',
                 }}
               />
-              {/* Name Below the Image as Button */}
               <Button
                 variant="text"
+                onClick={() => handleCategoryClick(item.name)} 
                 sx={{
                   color: '#fdfefe ',
                   marginTop: '10px',
@@ -198,13 +187,12 @@ const HomePage = () => {
                   },
                 }}
               >
-                {item.name}
+                {item.name.toUpperCase()} {/* Display in uppercase for the button */}
               </Button>
             </Box>
           ))}
         </Box>
         
-        {/* Slogan Overlaid on the Banner Image */}
         <Typography
           variant="h2"
           sx={{
@@ -222,7 +210,6 @@ const HomePage = () => {
           Discover Your Next Gadget in TechMart
         </Typography>
 
-        {/* Button Overlaid on the Banner Image */}
         <Button
           onClick={handleSignIn}
           sx={{
@@ -242,7 +229,6 @@ const HomePage = () => {
         </Button>
       </Box>
 
-      {/* Footer */}
       <Box
         component="footer"
         sx={{
