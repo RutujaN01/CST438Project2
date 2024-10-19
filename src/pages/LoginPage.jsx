@@ -3,9 +3,6 @@ import googleLogo from '../assets/images/google.png';
 import headerImage from '../assets/images/logo.png'; 
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
-
-
-
 const View = ({ style, children }) => <div style={style}>{children}</div>;
 const Text = ({ style, children }) => <p style={style}>{children}</p>;
 const Button = ({ onClick, style, children }) => (
@@ -20,53 +17,50 @@ const TextInput = ({ value, onChange, style, placeholder, type = 'text' }) => (
     placeholder={placeholder}
   />
 );
-
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
   const navigate = useNavigate(); 
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
     try {
         const res = await axios.post(`http://127.0.0.1:8000/users/login/`, {
             username: username,
             password: password
         });
 
-        const currentUser = res.data.user;  // The current logged-in user
+        const currentUser = res.data.user;  
         console.log('Login successful:', currentUser);
 
-        // Fetch existing users from localStorage
         let users = JSON.parse(localStorage.getItem('users')) || [];
 
-        // Check if the user already exists in localStorage
+        if (!Array.isArray(users)) {
+            users = [];  
+        }
+
         const userExists = users.find(user => user.username === currentUser.username);
 
         if (!userExists) {
-            // Add the current user to the list if they don't already exist
             users.push({
-                id: currentUser.id,  // Add an ID for each user to make editing and deleting easier
+                id: currentUser.id,  
                 username: currentUser.username,
-                email: currentUser.email,  // Assuming email is part of the user data
+                email: currentUser.email,  
                 roles: currentUser.roles
             });
-            localStorage.setItem('users', JSON.stringify(users));  // Store the updated list in localStorage
+            localStorage.setItem('users', JSON.stringify(users));  
         }
 
-        // Store tokens for the logged-in user
         localStorage.setItem("access", res.data.access);
         localStorage.setItem("refresh", res.data.refresh);
         localStorage.setItem("user", JSON.stringify(currentUser));
 
-        // Check user roles and navigate accordingly
         if (currentUser.roles.includes('admin')) {
-            navigate('/admin');  // Redirect to admin page for admins
+            navigate('/admin');  
         } else {
-            navigate('/home');  // Redirect to home page for regular users
+            navigate('/home');   
         }
     } catch (error) {
         console.error('Login failed:', error);
@@ -78,25 +72,19 @@ const LoginPage = () => {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
   const handleForgotPassword = () => {
     console.log('Redirecting to forgot password page...');
   };
-
   const handleSignIn = () => {
     navigate('/signin');
   };
-
   
   return (
     <View style={styles.container}>
       {/* Header Bar */}
       <View style={styles.headerBar}>
       <img src={headerImage} alt="Header" style={styles.headerImage} />
-      <Text  style={styles.adminText}>ADMIN?</Text>
-
       </View>
-
       {/* Main Content */}
       <View style={styles.mainContent}>
         {/* Left Section */}
@@ -141,7 +129,6 @@ const LoginPage = () => {
           <Button type="submit" style={styles.loginButton} onClick={handleLogin}>LOGIN</Button>
         </View>
       </View>
-
         {/* Right Section */}
         <View style={styles.rightContainer}>
           <Text style={styles.newHereTitle}>NEW HERE?</Text>
@@ -152,7 +139,6 @@ const LoginPage = () => {
     </View>
   );
 };
-
 const styles = {
   container: {
     display: 'flex',
@@ -173,7 +159,6 @@ const styles = {
     left: 0,
     zIndex: 1000, 
     justifyContent: 'space-between', 
-
   },
   headerImage: {
       width: '150px', 
@@ -181,14 +166,7 @@ const styles = {
       position: 'fixed',
       marginLeft: '-15px', 
     },
-    adminText: {
-      color: '#fff',
-      marginLeft: '93%', 
-      fontSize: '16px',
-      textDecoration: 'underline', 
-      cursor: 'pointer', 
-
-    },
+    
   mainContent: {
     display: 'flex',
     flex: 1,
@@ -228,12 +206,10 @@ const styles = {
     width: '20px',
     marginRight: '10px',
   },
-
   divider: {
       display: 'flex',
       alignItems: 'center',
       marginTop: '8px',
-
       marginBottom: '8px',
     },
   
@@ -275,7 +251,6 @@ const styles = {
       justifyContent: 'space-between', 
       width: '100%',
       fontSize:'12px',
-
     },
     forgotPassword: {
       color: '#007BFF',
@@ -312,6 +287,4 @@ const styles = {
     cursor: 'pointer',
   },
 };
-
-
 export default LoginPage;

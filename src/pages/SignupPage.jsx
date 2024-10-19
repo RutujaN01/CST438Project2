@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';  
+import { useNavigate } from 'react-router-dom';
 import googleLogo from '../assets/images/google.png';
-import headerImage from '../assets/images/logo.png'; 
+import headerImage from '../assets/images/logo.png';
 import axios from "axios";
+import { Snackbar, Alert } from '@mui/material'; // Import Snackbar and Alert
 
 const View = ({ style, children }) => <div style={style}>{children}</div>;
 const Text = ({ style, children }) => <p style={style}>{children}</p>;
@@ -27,8 +28,14 @@ const SignupPage = () => {
     password: "",
     confirmPassword: ""
   });
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const navigate = useNavigate();
 
-  const navigate = useNavigate();  
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -42,60 +49,73 @@ const SignupPage = () => {
 
     const { password, confirmPassword } = formData;
     const isValidPassword = validatePasswordStrength(password);
-    
+
     if (!isValidPassword) {
-        alert('Password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers, and special characters.');
-        return; 
+      setSnackbarMessage('Password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers, and special characters.');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
     }
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match. Please try again.');
+      setSnackbarMessage('Passwords do not match. Please try again.');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
       return;
-  }
-
-    console.dir(formData);
-    
+    }
 
     try {
       const data = await axios.post(`http://127.0.0.1:8000/users/newuser/`, {
-          "username": formData.fullName,
-          "password": formData.password,
-          "email": formData.email
+        "username": formData.fullName,
+        "password": formData.password,
+        "email": formData.email
       });
-      
+
       console.dir(data);
-      navigate('/homepage');
+
+
+      setSnackbarMessage('Sign up successful! You can now log in.');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
       
-      // Save refresh, access, and user data to local storage
-      // Handle form submission logic
-      console.log("Sign Up form data:", formData);
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
+
     } catch (error) {
       console.error("Error during sign up:", error);
+      setSnackbarMessage('Error occurred during sign up. Please try again.');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
     }
   };
 
-const validatePasswordStrength = (password) => {
+  const validatePasswordStrength = (password) => {
     const passwordStrengthRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordStrengthRegex.test(password);
-};
+  };
 
   const handleLoginNavigation = () => {
-    console.log("Navigating to login page");
     navigate('/login');
-};
-
-
+  };
 
   return (
     <View style={styles.container}>
-      {/* Header Bar */}
+      <Snackbar 
+        open={snackbarOpen} 
+        autoHideDuration={6000} 
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+
       <View style={styles.headerBar}>
         <img src={headerImage} alt="Header" style={styles.headerImage} />
       </View>
 
-      {/* Main Content Container */}
       <View style={styles.mainContent}>
-        {/* Left Section for Google Signup */}
         <View style={styles.leftSection}>
           <Text style={styles.title}>SIGN UP WITH GOOGLE</Text>
           <Button style={styles.googleButton}>
@@ -104,7 +124,6 @@ const validatePasswordStrength = (password) => {
           </Button>
         </View>
 
-        {/* Right Section for Form Inputs */}
         <View style={styles.rightSection}>
           <Text style={styles.formTitle}>SIGN UP</Text>
           <View as="form" onSubmit={handleSubmit} style={styles.form}>
@@ -144,15 +163,14 @@ const validatePasswordStrength = (password) => {
               onChange={handleChange}
               style={styles.input}
             />
-            <Button data-testid="signup-button" type="submit" style={styles.submitButton} onClick={handleSubmit}>Sign Up</Button>
+            <Button data-testid="signup-button" type="submit" style={styles.submitButton} onClick={handleSubmit}>
+              Sign Up
+            </Button>
             <View style={styles.optionsContainer}>
-              <Text style={styles.tologin}>
-                Already have an account?
-              </Text>
+              <Text style={styles.tologin}>Already have an account?</Text>
               <span style={styles.tologinlink} onClick={handleLoginNavigation}>
-                LogIn
+                Log In
               </span>
-            
             </View>
           </View>
         </View>
@@ -160,6 +178,7 @@ const validatePasswordStrength = (password) => {
     </View>
   );
 };
+
 
 const styles = {
   container: {
@@ -202,7 +221,6 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     width:'400px',
-
   },
   title: {
     fontSize: '30px',
@@ -231,7 +249,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    
   },
   formTitle: {
     fontSize: "28px",
@@ -281,7 +298,19 @@ const styles = {
     marginTop: '10px',
     marginRight: '5px',
     marginLeft: "100px",
-  }
+  },
+  snackbar: {
+    position: 'fixed',
+    bottom: '20px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    backgroundColor: '#323232',
+    color: '#fff',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    fontSize: '14px',
+    zIndex: 1000,
+  },
 };
 
 export default SignupPage;
