@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage'; 
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
+import CategoryPage from 'pages/CategoryPage';
 import WishlistPage from './pages/WishlistPage';
 import LandingPage from './pages/LandingPage'; 
 import AdminPage from 'pages/AdminPage';
@@ -14,7 +15,10 @@ export default function App() {
   const routes = [
     { path: "/wishlist", element: <WishlistPage /> },
     { path: "/", element: <LandingPage /> }, 
-    { path: "/signin", element: <SignupPage /> },
+    { path: "/home", element: <HomePage /> }, 
+    { path: "/signup", element: <SignupPage /> }, 
+    { path: "/wishlist", element: <WishlistPage /> },
+    { path: "/category/:category", element: <CategoryPage /> },
     { path: "/login", element: <LoginPage /> },
   ];
 
