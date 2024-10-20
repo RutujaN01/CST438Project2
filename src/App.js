@@ -7,7 +7,10 @@ import WishlistPage from './pages/WishlistPage';
 import LandingPage from './pages/LandingPage'; 
 import AdminPage from 'pages/AdminPage';
 import ProfilePage from 'pages/ProfilePage';
+import SearchPage from 'pages/SearchPage';
+
 import PrivateRoute from './PrivateRoute'; 
+
 
 export default function App() {
   console.log("Current Path:", window.location.pathname);
@@ -26,6 +29,8 @@ export default function App() {
     { path: "/home", element: <HomePage /> }, 
     { path: "/admin", element: <AdminPage /> },
     { path: "/profile", element: <ProfilePage /> },
+    { path: "/search", element: <SearchPage /> },
+
   ];
 
   return (

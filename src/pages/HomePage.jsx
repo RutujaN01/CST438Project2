@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, AppBar, Toolbar, InputBase, Button, Typography } from '@mui/material';
+import { Box, AppBar, Toolbar, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -89,16 +89,9 @@ const HomePage = () => {
           />
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                backgroundColor: '#fff',
-                borderRadius: '6px',
-                padding: '0 8px',
-                width: '400px',
-                marginRight: '16px',
-              }}
+            <Button
+              onClick={() => navigate('/search')}
+              sx={{ color: '#FDFEFE', marginRight: '-20px' }}
             >
               <InputBase placeholder="Search..." sx={{ flex: 1, padding: '4px' }} />
               <Button sx={{ padding: '0' }}>
