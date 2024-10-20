@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Box, AppBar, Toolbar, InputBase, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
@@ -8,7 +9,7 @@ import sampleImage1 from '../assets/phones.webp';
 import sampleImage2 from '../assets/Tablets.jpeg';
 import sampleImage3 from '../assets/TV.jpeg';
 import sampleImage4 from '../assets/Gadgets.jpeg';
-import bannerImage from '../assets/Homepage.png'; 
+import bannerImage from '../assets/Homepage.png';
 
 const HomePage = () => {
   const boxesContent = [
@@ -17,8 +18,35 @@ const HomePage = () => {
     { image: sampleImage3, name: 'tv' }, 
     { image: sampleImage4, name: 'gadgets' }, 
   ];
-
+  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+  const accessToken = `Bearer ${localStorage.getItem("access")}`;
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('access');
+      if (!token) {
+        console.log("No token found, redirecting to login");
+        navigate('/login');
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/users/get_current_user/`, {
+          headers: {
+            "Authorization": accessToken
+          }
+        });
+        setUserData(response.data.data);
+      } catch (error) {
+        console.error('Error fetching user data', error);
+        localStorage.removeItem('access');
+        navigate('/login');
+      }
+    };
+
+    fetchUserData();
+  }, [navigate, accessToken]);
 
   const handleLoginNavigation = () => {
     navigate('/login');
@@ -38,12 +66,11 @@ const HomePage = () => {
 
   return (
     <Box>
-      {/* Header Bar */}
       <AppBar
         position="fixed"
         sx={{
           display: 'flex',
-          backgroundColor: '#2c2c42',
+          backgroundColor: '#2C2C42',
           padding: '5px',
           alignItems: 'center',
           width: '100%',
@@ -78,7 +105,6 @@ const HomePage = () => {
                 <SearchIcon />
               </Button>
             </Box>
-
             <Button onClick={handleWishlistPage} sx={{ color: '#fdfefe', marginRight: '16px' }}>
               <FavoriteIcon />
             </Button>
@@ -114,18 +140,17 @@ const HomePage = () => {
           </Box>
         </Toolbar>
       </AppBar>
-
       <Box
         sx={{
           position: 'relative',
-          marginTop: '60px', 
+          marginTop: '60px',
           width: '100%',
-          height: '850px', 
+          height: '850px',
           overflow: 'hidden',
         }}
       >
         <img
-          src={bannerImage} 
+          src={bannerImage}
           alt="Banner"
           style={{
             width: '100%',
@@ -134,7 +159,6 @@ const HomePage = () => {
           }}
         />
       </Box>
-
       <Box
         sx={{
           display: 'flex',
@@ -148,14 +172,14 @@ const HomePage = () => {
             display: 'flex',
             justifyContent: 'space-between',
             width: '90%',
-            marginTop: '40px', 
+            marginTop: '40px',
           }}
         >
           {boxesContent.map((item, index) => (
             <Box
               key={index}
               sx={{
-                backgroundColor: '#2c2c42',
+                backgroundColor: '#2C2C42',
                 width: '400px',
                 height: '400px',
                 borderRadius: '25px',
@@ -177,9 +201,9 @@ const HomePage = () => {
               />
               <Button
                 variant="text"
-                onClick={() => handleCategoryClick(item.name)} 
+                onClick={() => handleCategoryClick(item.name)}
                 sx={{
-                  color: '#fdfefe ',
+                  color: '#FDFEFE ',
                   marginTop: '10px',
                   textTransform: 'none',
                   '&:hover': {
@@ -192,12 +216,11 @@ const HomePage = () => {
             </Box>
           ))}
         </Box>
-        
         <Typography
           variant="h2"
           sx={{
             position: 'absolute',
-            bottom: '25%', 
+            bottom: '25%',
             left: '45%',
             fontSize: '27px',
             transform: 'translateX(-50%)',
@@ -214,14 +237,14 @@ const HomePage = () => {
           onClick={handleSignIn}
           sx={{
             position: 'absolute',
-            bottom: '17%', 
+            bottom: '17%',
             left: '45%',
             transform: 'translateX(-50%)',
-            backgroundColor: '#797d7f ',
+            backgroundColor: '#797D7F ',
             color: '#fff',
             padding: '15px 20px',
             '&:hover': {
-              backgroundColor: '#797d7f',
+              backgroundColor: '#797D7F',
             },
           }}
         >
@@ -232,8 +255,8 @@ const HomePage = () => {
       <Box
         component="footer"
         sx={{
-          backgroundColor: '#2c2c42',
-          color: '#fdfefe',
+          backgroundColor: '#2C2C42',
+          color: '#FDFEFE',
           padding: '20px 0',
           textAlign: 'center',
         }}

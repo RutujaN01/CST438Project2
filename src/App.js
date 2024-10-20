@@ -1,22 +1,31 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage'; 
-import LandingPage from './pages/LandingPage'; 
+import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage'; 
-import WishlistPage from 'pages/WishlistPage';
 import CategoryPage from 'pages/CategoryPage';
+import WishlistPage from './pages/WishlistPage';
+import LandingPage from './pages/LandingPage'; 
+import AdminPage from 'pages/AdminPage';
+import ProfilePage from 'pages/ProfilePage';
+import PrivateRoute from './PrivateRoute'; 
 
 export default function App() {
-  console.log("Current Path:", window.location.pathname); 
+  console.log("Current Path:", window.location.pathname);
 
   const routes = [
+    { path: "/wishlist", element: <WishlistPage /> },
     { path: "/", element: <LandingPage /> }, 
     { path: "/home", element: <HomePage /> }, 
-    { path: "/login", element: <LoginPage /> }, 
     { path: "/signup", element: <SignupPage /> }, 
     { path: "/wishlist", element: <WishlistPage /> },
     { path: "/category/:category", element: <CategoryPage /> },
+    { path: "/login", element: <LoginPage /> },
+  ];
 
+  const protectedRoutes = [
+    { path: "/home", element: <HomePage /> }, 
+    { path: "/admin", element: <AdminPage /> },
+    { path: "/profile", element: <ProfilePage /> },
   ];
 
   return (
@@ -24,6 +33,12 @@ export default function App() {
       {routes.map(({ path, element }) => (
         <Route key={path} path={path} element={element} />
       ))}
+
+      {protectedRoutes.map(({ path, element }) => (
+        <Route key={path} path={path} element={<PrivateRoute element={element} />} />
+      ))}
+
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
