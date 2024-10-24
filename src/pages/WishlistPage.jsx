@@ -85,7 +85,7 @@ const styles = {
     top: 0,
     left: 0,
     zIndex: 1000,
-    justifyContent: 'space-between', // Change to space-between
+    justifyContent: 'space-between',
   },
   headerText: {
     color: '#fff',
