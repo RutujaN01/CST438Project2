@@ -3,9 +3,12 @@ import { Drawer, List, ListItem, IconButton, Table, TableHead, TableRow, TableCe
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; 
+
 import axios from 'axios';
 
 const AdminPage = () => {
+    const navigate = useNavigate(); 
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [editUserIndex, setEditUserIndex] = useState(null);
@@ -118,7 +121,7 @@ const AdminPage = () => {
                         <ListItem button>
                             USERS
                         </ListItem>
-                        <ListItem button>
+                        <ListItem button onClick={() => navigate('/admin/items')}>
                             ITEMS
                         </ListItem>
                     </List>
@@ -131,9 +134,9 @@ const AdminPage = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Username</TableCell>
-                            <TableCell>Email</TableCell>
-                            <TableCell>Actions</TableCell>
+                            <TableCell><b>Username</b></TableCell>
+                            <TableCell><b>Email</b></TableCell>
+                            <TableCell><b>Actions</b></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -160,18 +163,22 @@ const AdminPage = () => {
                                     )}
                                 </TableCell>
                                 <TableCell>
-                                    {editUserIndex === index ? (
-                                        <>
-                                            <Button onClick={saveEditedUser}>Save</Button>
-                                            <Button onClick={() => setEditUserIndex(null)}>Cancel</Button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <IconButton><FaPencilAlt onClick={() => startEditingUser(index)} /></IconButton>
-                                            <IconButton><FaTrash onClick={() => handleDeleteUser(user.username)} /></IconButton>
-                                        </>
-                                    )}
-                                </TableCell>
+    {editUserIndex === index ? (
+        <>
+            <Button onClick={saveEditedUser}>Save</Button>
+            <Button onClick={() => setEditUserIndex(null)}>Cancel</Button>
+        </>
+    ) : (
+        <>
+            <IconButton onClick={() => startEditingUser(index)}>
+                <FaPencilAlt />
+            </IconButton>
+            <IconButton onClick={() => handleDeleteUser(user.username)}>
+                <FaTrash />
+            </IconButton>
+        </>
+    )}
+</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

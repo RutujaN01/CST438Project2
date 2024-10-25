@@ -12,12 +12,6 @@ import sampleImage4 from '../assets/Gadgets.jpeg';
 import bannerImage from '../assets/Homepage.png';
 
 const HomePage = () => {
-  const boxesContent = [
-    { image: sampleImage1, name: 'phones' }, 
-    { image: sampleImage2, name: 'tablets' }, 
-    { image: sampleImage3, name: 'tv' }, 
-    { image: sampleImage4, name: 'gadgets' }, 
-  ];
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const accessToken = `Bearer ${localStorage.getItem("access")}`;
@@ -64,6 +58,13 @@ const HomePage = () => {
     navigate(`/category/${categoryName}`);
   };
 
+  const boxesContent = [
+    { image: sampleImage1, name: 'phones' }, 
+    { image: sampleImage2, name: 'tablets' },
+    { image: sampleImage3, name: 'tv' }, 
+    { image: sampleImage4, name: 'gadgets' },
+  ];
+
   return (
     <Box>
       <AppBar
@@ -87,49 +88,40 @@ const HomePage = () => {
             alt="TechMart Logo"
             style={{ width: '140px', height: 'auto', marginRight: '10px' }}
           />
-
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button
-              onClick={() => navigate('/search')}
-              sx={{ color: '#FDFEFE', marginRight: '-20px' }}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                
+                
+                width: '0px',
+                marginRight: '40px',
+              
+              }}
             >
-              <InputBase placeholder="Search..." sx={{ flex: 1, padding: '4px' }} />
-              <Button sx={{ padding: '0' }}>
+            
+              <Button onClick={() => navigate('/search')} sx={{ padding: '0', marginRight:'50px', color:'#FDFEFE' }}>
                 <SearchIcon />
               </Button>
             </Box>
-            <Button onClick={handleWishlistPage} sx={{ color: '#fdfefe', marginRight: '16px' }}>
+            <Button onClick={handleWishlistPage} sx={{ color: '#FDFEFE', marginRight: '16px' }}>
               <FavoriteIcon />
             </Button>
-
-            <Button
-              onClick={handleLoginNavigation}
-              sx={{
-                marginRight: '8px',
-                backgroundColor: 'transparent',
-                border: 'none',
-                color: '#fdfefe',
-                padding: '0',
-                '&:hover': {
-                  backgroundColor: 'transparent',
-                },
-              }}
-            >
-              Login
-            </Button>
-            <Button
-              sx={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                color: '#fdfefe ',
-                padding: '0',
-                '&:hover': {
-                  backgroundColor: 'transparent',
-                },
-              }}
-            >
-              Admin
-            </Button>
+            {userData ? (
+              <Typography variant="h6" sx={{ color: '#FDFEFE', marginRight: '16px' }}>
+                Welcome, {userData.username}!
+              </Typography>
+            ) : (
+              <>
+                <Button onClick={handleLoginNavigation} sx={{ color: '#FDFEFE', marginRight: '8px' }}>
+                  Login
+                </Button>
+                <Button sx={{ backgroundColor: 'transparent', border: 'none', color: '#FDFEFE ' }}>
+                  Admin
+                </Button>
+              </>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
@@ -204,7 +196,7 @@ const HomePage = () => {
                   },
                 }}
               >
-                {item.name.toUpperCase()} {/* Display in uppercase for the button */}
+                {item.name.toUpperCase()} 
               </Button>
             </Box>
           ))}
@@ -225,7 +217,6 @@ const HomePage = () => {
         >
           Discover Your Next Gadget in TechMart
         </Typography>
-
         <Button
           onClick={handleSignIn}
           sx={{
@@ -244,7 +235,6 @@ const HomePage = () => {
           Start Now
         </Button>
       </Box>
-
       <Box
         component="footer"
         sx={{

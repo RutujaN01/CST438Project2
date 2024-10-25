@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import googleLogo from '../assets/images/google.png';
 import headerImage from '../assets/images/logo.png';
 import axios from "axios";
-import { Snackbar, Alert } from '@mui/material'; // Import Snackbar and Alert
+import { Snackbar, Alert } from '@mui/material'; 
 
 const View = ({ style, children }) => <div style={style}>{children}</div>;
 const Text = ({ style, children }) => <p style={style}>{children}</p>;

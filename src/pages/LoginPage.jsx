@@ -72,11 +72,9 @@ const LoginPage = () => {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const handleForgotPassword = () => {
-    console.log('Redirecting to forgot password page...');
-  };
+  
   const handleSignIn = () => {
-    navigate('/signin');
+    navigate('/signup');
   };
   
   return (
@@ -122,9 +120,7 @@ const LoginPage = () => {
               />
               Show Password
             </label>
-            <Text onClick={handleForgotPassword} style={styles.forgotPassword}>
-              Forgot Password?
-            </Text>
+            
           </View>
           <Button type="submit" style={styles.loginButton} onClick={handleLogin}>LOGIN</Button>
         </View>
