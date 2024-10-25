@@ -102,12 +102,11 @@ const SearchPage = () => {
     setSnackbarOpen(false);
   };
 
-  // Toggle wishlist state
   const toggleWishlist = (itemId) => {
     if (wishlist.includes(itemId)) {
-      setWishlist(wishlist.filter(id => id !== itemId)); // Remove from wishlist
+      setWishlist(wishlist.filter(id => id !== itemId)); 
     } else {
-      setWishlist([...wishlist, itemId]); // Add to wishlist
+      setWishlist([...wishlist, itemId]); 
     }
   };
 
@@ -158,7 +157,7 @@ const SearchPage = () => {
             position: 'fixed',
             top: '280px',
             marginBottom: '50px',
-            zIndex: 1,  // Ensure the buttons are on top
+            zIndex: 1,  
           }}
         >
           {categories.map((category, index) => (
@@ -187,7 +186,7 @@ const SearchPage = () => {
           {searchResults.length > 0 ? (
             searchResults.map((item) => (
               <Box key={item.id} sx={{ padding: '20px', marginBottom: '10px', backgroundColor: '#f5f5f5', borderRadius: '10px', position: 'relative' }}>
-                <Typography variant="h5">{item.name}</Typography>
+                <Typography variant="h7" fontWeight='bold'>{item.name}</Typography>
                 <Typography>Description: {item.description}</Typography>
                 <Typography>Price: ${item.price}</Typography>
                 

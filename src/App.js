@@ -10,6 +10,7 @@ import ProfilePage from 'pages/ProfilePage';
 import SearchPage from 'pages/SearchPage';
 
 import PrivateRoute from './PrivateRoute'; 
+import ItemsPage from 'pages/ItemsPage';
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
   const protectedRoutes = [
     { path: "/home", element: <HomePage /> }, 
     { path: "/admin", element: <AdminPage /> },
+    { path: "/admin/items", element: <ItemsPage /> },
     { path: "/profile", element: <ProfilePage /> },
     { path: "/search", element: <SearchPage /> },
 
