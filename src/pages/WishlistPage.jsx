@@ -1,68 +1,55 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaUserCircle } from 'react-icons/fa'; 
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+const View = ({ style, children }) => <div style={style}>{children}</div>;
+const Text = ({ style, children }) => <p style={style}>{children}</p>;
+const Button = ({ onClick, style, children }) => (
+  <button onClick={onClick} style={style}>{children}</button>
+);
 
 const WishlistPage = () => {
-  const navigate = useNavigate();
+  const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
 
-  const wishlistItems = [
-    { name: 'Apple iPhone 14, 128GB, Blue', price: '$999.00', status: 'In Stock' },
-    { name: 'Nintendo Switch Pro Wireless Game Controller - Black', price: '$70.00', status: 'Out of Stock' },
-  ];
+  const removeFromWishlist = (itemId) => {
+    console.log(`Item with ID ${itemId} removed from wishlist!`);
 
-  const handleAddToCart = (item) => {
-    if (item.status === 'In Stock') {
-      console.log(`${item.name} added to cart!`);
-    }
+    const updatedWishlist = wishlistItems.filter(item => item.id !== itemId);
+    localStorage.setItem('wishlistItems', JSON.stringify(updatedWishlist));
+    window.location.reload();
   };
 
   return (
-    <div style={styles.container}>
-      {/* Header */}
-      <div style={styles.headerBar}>
-        <p style={styles.headerText}>My Wishlist</p>
+    <View style={styles.container}>
+      <View style={styles.headerBar}>
+        <Text style={styles.headerText}>My Wishlist</Text>
+      </View>
 
-        {/* User Icon */}
-        <FaUserCircle style={styles.userIcon} onClick={() => navigate('/profile')} />
-      </div>
+      <View style={styles.mainContent}>
+        <View style={styles.tableHeader}>
+          <Text style={styles.productName}>Product Name</Text>
+          <Text style={styles.productPrice}>Price</Text>
+          <Text style={styles.productActions}>Actions</Text>
+        </View>
 
-      {/* Main Content */}
-      <div style={styles.mainContent}>
-        {/* Table */}
-        <table style={styles.table}>
-          <thead>
-            <tr style={styles.tableHeader}>
-              <th style={styles.tableHeaderText}>Product Name</th>
-              <th style={styles.tableHeaderText}>Price</th>
-              <th style={styles.tableHeaderText}>Stock Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {wishlistItems.map((item, index) => (
-              <tr key={index} style={styles.tableRow}>
-                <td style={styles.productName}>{item.name}</td>
-                <td style={styles.productPrice}>{item.price}</td>
-                <td style={styles.productStatus}>{item.status}</td>
-                <td>
-                  <button
-                    onClick={() => handleAddToCart(item)}
-                    style={
-                      item.status === 'In Stock'
-                        ? styles.addButton
-                        : { ...styles.addButton, ...styles.addButtonDisabled }
-                    }
-                    disabled={item.status !== 'In Stock'}
-                  >
-                    Add to cart
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+        {wishlistItems.map((item) => (
+          <View key={item.id} style={styles.tableRow}>
+            <Text style={styles.productName}>{item.name}</Text>
+            <Text style={styles.productPrice}>${Number(item.price).toFixed(2)}</Text>
+            <View style={styles.productActions}>
+              {/* Heart Icon for "liked" functionality */}
+              <Button onClick={() => console.log(`Liked ${item.name}`)} style={styles.actionButton}>
+                <FavoriteIcon style={{ color: 'red' }} />
+              </Button>
+              {/* Delete Button */}
+              <Button onClick={() => removeFromWishlist(item.id)} style={styles.actionButton}>
+                <DeleteIcon />
+              </Button>
+            </View>
+          </View>
+        ))}
+      </View>
+    </View>
   );
 };
 
@@ -85,19 +72,12 @@ const styles = {
     top: 0,
     left: 0,
     zIndex: 1000,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   headerText: {
     color: '#fff',
     fontSize: '24px',
     fontWeight: 'bold',
-    marginLeft: '670px',
-  },
-  userIcon: {
-    color: '#fff',
-    fontSize: '30px',
-    cursor: 'pointer',
-    marginRight: '20px', 
   },
   mainContent: {
     display: 'flex',
@@ -106,44 +86,38 @@ const styles = {
     paddingLeft: '30px',
     paddingRight: '30px',
   },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-  },
   tableHeader: {
-    backgroundColor: '#2B2438',
-    color: '#fff',
-  },
-  tableHeaderText: {
-    padding: '10px',
-    textAlign: 'left',
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontWeight: 'bold',
+    fontSize: '18px',
+    borderBottom: '2px solid #ccc',
+    paddingBottom: '10px',
+    marginBottom: '20px',
   },
   tableRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
     borderBottom: '1px solid #ccc',
+    padding: '10px 0',
   },
   productName: {
-    padding: '10px',
-    textAlign: 'left',
+    flex: 2,
   },
   productPrice: {
-    padding: '10px',
+    flex: 1,
     textAlign: 'center',
   },
-  productStatus: {
-    padding: '10px',
-    textAlign: 'center',
+  productActions: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  addButton: {
-    padding: '8px 12px',
-    backgroundColor: '#2B2438',
-    color: '#fff',
+  actionButton: {
+    background: 'transparent',
     border: 'none',
-    borderRadius: '5px',
     cursor: 'pointer',
-  },
-  addButtonDisabled: {
-    backgroundColor: '#888888',
-    cursor: 'not-allowed',
   },
 };
 
