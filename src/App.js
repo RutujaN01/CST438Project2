@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage'; 
 import WishlistPage from 'pages/WishlistPage';
 import CategoryPage from 'pages/CategoryPage';
+import { ProductInformationPage } from 'pages/ProductInformationPage';
 
 export default function App() {
   console.log("Current Path:", window.location.pathname); 
@@ -16,6 +17,7 @@ export default function App() {
     { path: "/signup", element: <SignupPage /> }, 
     { path: "/wishlist", element: <WishlistPage /> },
     { path: "/category/:category", element: <CategoryPage /> },
+    { path: "/product/:productID", element: <ProductInformationPage /> },
 
   ];
 
