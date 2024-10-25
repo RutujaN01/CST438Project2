@@ -1,6 +1,5 @@
 import React from 'react';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import DeleteIcon from '@mui/icons-material/Delete';
+//import { useNavigate } from 'react-router-dom';
 
 const View = ({ style, children }) => <div style={style}>{children}</div>;
 const Text = ({ style, children }) => <p style={style}>{children}</p>;
@@ -9,43 +8,54 @@ const Button = ({ onClick, style, children }) => (
 );
 
 const WishlistPage = () => {
-  const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+  //const navigate = useNavigate();
 
-  const removeFromWishlist = (itemId) => {
-    console.log(`Item with ID ${itemId} removed from wishlist!`);
-    
-    const updatedWishlist = wishlistItems.filter(item => item.id !== itemId);
-    localStorage.setItem('wishlistItems', JSON.stringify(updatedWishlist));
-    window.location.reload(); 
+  const wishlistItems = [
+    { name: 'Apple iPhone 14, 128GB, Blue', price: '$999.00', status: 'In Stock' },
+    { name: 'Nintendo Switch Pro Wireless Game Controller - Black', price: '$70.00', status: 'Out of Stock' },
+  ];
+
+  const handleAddToCart = (item) => {
+    if (item.status === 'In Stock') {
+      console.log(`${item.name} added to cart!`);
+    }
   };
+
+  
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.headerBar}>
         <Text style={styles.headerText}>My Wishlist</Text>
       </View>
 
+      {/* Main Content */}
       <View style={styles.mainContent}>
+        {/* Table Header */}
         <View style={styles.tableHeader}>
           <Text style={styles.productName}>Product Name</Text>
           <Text style={styles.productPrice}>Price</Text>
-          <Text style={styles.productActions}>Actions</Text>
+          <Text style={styles.productStatus}>Stock Status</Text>
         </View>
 
-        {wishlistItems.map((item) => (
-          <View key={item.id} style={styles.tableRow}>
+        {/* Wishlist Items */}
+        {wishlistItems.map((item, index) => (
+          <View key={index} style={styles.tableRow}>
             <Text style={styles.productName}>{item.name}</Text>
-            <Text style={styles.productPrice}>${Number(item.price).toFixed(2)}</Text>
-            <View style={styles.productActions}>
-              {/* Heart Icon for "liked" functionality */}
-              <Button onClick={() => console.log(`Liked ${item.name}`)} style={styles.actionButton}>
-                <FavoriteIcon style={{ color: 'red' }} />
-              </Button>
-              {/* Delete Button */}
-              <Button onClick={() => removeFromWishlist(item.id)} style={styles.actionButton}>
-                <DeleteIcon />
-              </Button>
-            </View>
+            <Text style={styles.productPrice}>{item.price}</Text>
+            <Text style={styles.productStatus}>{item.status}</Text>
+            <Button
+              onClick={() => handleAddToCart(item)}
+              style={
+                item.status === 'In Stock'
+                  ? styles.addButton
+                  : { ...styles.addButton, ...styles.addButtonDisabled }
+              }
+              disabled={item.status !== 'In Stock'}
+            >
+              Add to cart
+            </Button>
           </View>
         ))}
       </View>
@@ -108,16 +118,22 @@ const styles = {
     flex: 1,
     textAlign: 'center',
   },
-  productActions: {
+  productStatus: {
     flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    textAlign: 'center',
   },
-  actionButton: {
-    background: 'transparent',
+  addButton: {
+    padding: '8px 12px',
+    backgroundColor: '#2B2438',
+    color: '#fff',
     border: 'none',
+    borderRadius: '5px',
     cursor: 'pointer',
+    flex: 1,
+  },
+  addButtonDisabled: {
+    backgroundColor: '#888888',
+    cursor: 'not-allowed',
   },
 };
 
