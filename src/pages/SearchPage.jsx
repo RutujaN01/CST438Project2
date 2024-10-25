@@ -31,11 +31,10 @@ const SearchPage = () => {
     setSnackbarOpen(false);
 
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/items/searchName/item`, {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/items/searchName/${searchTerm}`, {
         headers: {
           "Authorization": `Bearer ${token}`
-        },
-        params: { name: searchTerm }
+        }
       });
 
       if (response.data && response.data.name) {
