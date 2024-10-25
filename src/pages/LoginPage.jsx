@@ -76,7 +76,7 @@ const LoginPage = () => {
     console.log('Redirecting to forgot password page...');
   };
   const handleSignIn = () => {
-    navigate('/signin');
+    navigate('/signup');
   };
   
   return (
