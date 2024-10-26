@@ -130,7 +130,7 @@ const SignupPage = () => {
             <TextInput
               type="text"
               name="fullName"
-              placeholder="Full Name"
+              placeholder="Username"
               data-testid="full-name"
               value={formData.fullName}
               onChange={handleChange}
