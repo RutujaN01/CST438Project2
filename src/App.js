@@ -8,7 +8,7 @@ import LandingPage from './pages/LandingPage';
 import AdminPage from 'pages/AdminPage';
 import ProfilePage from 'pages/ProfilePage';
 import SearchPage from 'pages/SearchPage';
-
+// import { ProductInformationPage } from 'pages/ProductInformationPage';
 import PrivateRoute from './PrivateRoute'; 
 import ItemsPage from 'pages/ItemsPage';
 
@@ -24,6 +24,7 @@ export default function App() {
     { path: "/wishlist", element: <WishlistPage /> },
     { path: "/category/:category", element: <CategoryPage /> },
     { path: "/login", element: <LoginPage /> },
+    // { path: "/product/:productID", element: <ProductInformationPage /> },
   ];
 
   const protectedRoutes = [
