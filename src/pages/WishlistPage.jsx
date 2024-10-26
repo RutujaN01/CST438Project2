@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const View = ({ style, children }) => <div style={style}>{children}</div>;
 const Text = ({ style, children }) => <p style={style}>{children}</p>;
@@ -9,14 +11,59 @@ const Button = ({ onClick, style, children }) => (
 );
 
 const WishlistPage = () => {
-  const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+  const navigate = useNavigate();
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const [wishlists, setWishlists] = useState([]);
+  useEffect(() => {
+    const token = localStorage.getItem('access');
+    if (!token) {
+      console.log("No token found, redirecting to login");
+      navigate('/login');
+    }
 
-  const removeFromWishlist = (itemId) => {
+    // Update the wishlist
+    const fetchWishlist = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/wishlists`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (response.data) {
+          console.dir(response.data.data[0]);
+          setWishlistItems(response.data.data[0].items);
+          setWishlists(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching wishlist:', error);
+      }
+    }
+
+    fetchWishlist();
+  }, [])
+  const removeFromWishlist = async (itemId) => {
     console.log(`Item with ID ${itemId} removed from wishlist!`);
-
+    const token = localStorage.getItem('access');
+    if (!token) {
+      console.log("No token found, redirecting to login");
+      navigate('/login');
+    }
+    // Find the wishlist the item belongs to
+    const wishlist = wishlists.find(wishlist => wishlist.items.some(item => item.id === itemId));
+    const response = await axios.patch(`${process.env.REACT_APP_BACKEND_BASE_URL}/wishlists/add-item`, {
+      "wishlist_id": wishlist.id,
+      "item_id": itemId
+    },
+      {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
     const updatedWishlist = wishlistItems.filter(item => item.id !== itemId);
+    setWishlistItems(updatedWishlist);
     localStorage.setItem('wishlistItems', JSON.stringify(updatedWishlist));
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
