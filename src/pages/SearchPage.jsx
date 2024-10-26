@@ -147,13 +147,18 @@ const SearchPage = () => {
   const toggleWishlist = async (itemId) => {
     // Handle adding/removing items from the wishlist in the backend
     await handleAddToWishlist(itemId);
-    if (wishlist.includes(itemId)) {
-      setWishlist(wishlist.filter(id => id !== itemId));
-      localStorage.setItem("wishlistItems", JSON.stringify(wishlist.filter(id => id !== itemId)));
-    } else {
-      setWishlist([...wishlist, itemId]);
-      localStorage.setItem("wishlistItems", JSON.stringify([...wishlist, itemId]));
-    }
+
+    setWishlist((prevWishlist) => {
+      if (prevWishlist.some(item => item.id === itemId)) {
+        const updatedWishlist = prevWishlist.filter(item => item.id !== itemId);
+        localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
+        return updatedWishlist;
+      } else {
+        const updatedWishlist = [...prevWishlist, { id: itemId }];
+        localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
+        return updatedWishlist;
+      }
+    });
   };
 
   return (
