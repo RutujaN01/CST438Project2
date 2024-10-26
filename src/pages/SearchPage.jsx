@@ -46,7 +46,7 @@ const SearchPage = () => {
     }
 
     fetchWishlist();
-  }, [wishlist])
+  }, [searchResults])
   const handleSearch = async () => {
     const token = localStorage.getItem('access');
     if (!token) {
