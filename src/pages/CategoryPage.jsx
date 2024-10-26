@@ -10,7 +10,7 @@ const CategoryPage = () => {
   const [items, setItems] = useState([]);
   const [wishlistId, setWishlistId] = useState();
   const [filteredItems, setFilteredItems] = useState([]);
-  const [likedItems, setLikedItems] = useState(JSON.parse(localStorage.getItem('wishlist')) || {});
+  const [likedItems, setLikedItems] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
