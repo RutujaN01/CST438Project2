@@ -159,6 +159,7 @@ const SearchPage = () => {
   return (
     <Box>
       {/* Header Bar */}
+      <Box sx={{mb: 15}}>
       <AppBar position="fixed" sx={{ backgroundColor: '#2C2C42', height: '60px', display: 'flex', justifyContent: 'space-between' }}>
         <Toolbar sx={{ width: '100%', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -170,11 +171,11 @@ const SearchPage = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-
+      </Box>
       {/* Main Search Section */}
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', marginTop: '10px', padding: '20px' }}>
         {/* Search Bar */}
-        <Box sx={{ position: 'fixed', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: '500px', marginBottom: '30px', marginTop: '-400px' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: '500px', marginBottom: '30px' }}>
           <TextField
             fullWidth
             placeholder="Search for products..."
@@ -200,10 +201,10 @@ const SearchPage = () => {
             flexWrap: 'wrap',
             justifyContent: 'center',
             gap: '20px',
-            position: 'fixed',
-            top: '280px',
-            marginBottom: '50px',
-            zIndex: 1,  
+            // position: 'fixed',
+            // top: '280px',
+            marginBottom: '10px',
+            zIndex: 0,
           }}
         >
           {categories.map((category, index) => (
@@ -228,10 +229,10 @@ const SearchPage = () => {
         </Box>
 
         {/* Scrollable Search Results */}
-        <Box sx={{ width: '100%', maxWidth: '600px', marginTop: '280px', height: '400px', overflowY: 'auto' }}>
+        <Box sx={{ width: '100%', maxWidth: '600px', height: '400px', overflowY: 'auto' }}>
           {searchResults.length > 0 ? (
             searchResults.map((item) => (
-              <Box key={item.id} sx={{ padding: '20px', marginBottom: '10px', backgroundColor: '#f5f5f5', borderRadius: '10px', position: 'relative' }}>
+              <Box key={item.id} sx={{ padding: '20px', marginBottom: '10px', backgroundColor: '#f5f5f5', borderRadius: '10px', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)', position: 'relative' }}>
                 <Typography variant="h7" fontWeight='bold'>{item.name}</Typography>
                 <Typography>Description: {item.description}</Typography>
                 <Typography>Price: ${item.price}</Typography>
