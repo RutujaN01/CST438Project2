@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import logo from '../assets/images/logo.png';
-import sampleImage1 from '../assets/phones.webp';
-import sampleImage2 from '../assets/Tablets.jpeg';
-import sampleImage3 from '../assets/TV.jpeg';
-import sampleImage4 from '../assets/Gadgets.jpeg';
+import sampleImage1 from '../assets/phones.jpeg';
+import sampleImage2 from '../assets/tablets.jpeg';
+import sampleImage3 from '../assets/tv.jpeg';
+import sampleImage4 from '../assets/gadgets.jpeg';
 import bannerImage from '../assets/Homepage.png';
 
 const HomePage = () => {
