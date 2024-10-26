@@ -88,13 +88,13 @@ const LoginPage = () => {
         {/* Left Section */}
         <View style={styles.leftContainer}>
           <Text style={styles.title}>Login to your Account</Text>
-          <View style={styles.googleButton}>
-            <img src={googleLogo} alt="Google" style={styles.googleIcon} />
-            <Text>Login using Google</Text>
-          </View>
-          <View style={styles.divider}>
-                <span style={styles.orText}>OR</span>
-            </View>
+          {/*<View style={styles.googleButton}>*/}
+          {/*  <img src={googleLogo} alt="Google" style={styles.googleIcon} />*/}
+          {/*  <Text>Login using Google</Text>*/}
+          {/*</View>*/}
+          {/*<View style={styles.divider}>*/}
+          {/*      <span style={styles.orText}>OR</span>*/}
+          {/*  </View>*/}
           <View as="form" onSubmit={handleLogin} style={styles.form}>
             <Text style={styles.label}>ENTER USERNAME</Text>
             <TextInput
