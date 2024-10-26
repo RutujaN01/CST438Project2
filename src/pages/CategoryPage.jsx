@@ -4,12 +4,14 @@ import axios from 'axios';
 import { Box, Typography, Card, CardContent, CardMedia, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
+import { useNavigate } from 'react-router-dom';
 const CategoryPage = () => {
   const { category } = useParams();
   const [items, setItems] = useState([]);
+  const [wishlistId, setWishlistId] = useState();
   const [filteredItems, setFilteredItems] = useState([]);
   const [likedItems, setLikedItems] = useState(JSON.parse(localStorage.getItem('wishlist')) || {});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -25,6 +27,39 @@ const CategoryPage = () => {
   }, []);
 
   useEffect(() => {
+    const token = localStorage.getItem('access');
+    if (!token) {
+      console.log("No token found, redirecting to login");
+      navigate('/login');
+    }
+
+    // Fetch the "liked" wishlist
+    const fetchWishlist = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/wishlists/`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (response.data) {
+          setWishlistId(response.data.data[0].id);
+
+          for (let item of response.data.data[0].items) {
+            setLikedItems((prevLikedItems) => {
+              return { ...prevLikedItems, [item.id]: true };
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching wishlist:', error);
+      }
+    }
+
+    fetchWishlist();
+  }, [])
+
+  useEffect(() => {
     if (category) {
       const filtered = items.filter(item =>
         item.category && item.category.toLowerCase() === category.toLowerCase()
@@ -35,7 +70,13 @@ const CategoryPage = () => {
     }
   }, [category, items]);
 
-  const toggleLike = (item) => {
+  const toggleLike = async (item) => {
+    const response = await axios.patch(`${process.env.REACT_APP_BACKEND_BASE_URL}/wishlists/add-item`, {
+      "wishlist_id": wishlistId,
+      "item_id": item.id
+    },
+      { headers: { "Authorization": `Bearer ${localStorage.getItem('access')}` } });
+
     setLikedItems((prevLikedItems) => {
       const updatedLikedItems = { ...prevLikedItems, [item.id]: !prevLikedItems[item.id] };
 
