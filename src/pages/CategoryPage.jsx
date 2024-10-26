@@ -123,7 +123,7 @@ const CategoryPage = () => {
                 <CardMedia
                   component="img"
                   height="200"
-                  image={item.url}
+                  image={require(`../assets/${item.category}.jpeg`)}
                   alt={item.name}
                   sx={{ filter: 'brightness(0.9)' }}
                 />
@@ -135,7 +135,7 @@ const CategoryPage = () => {
                     <strong>Description:</strong> {item.description}
                   </Typography>
                   <Typography variant="body2" sx={{ marginTop: '8px', color: '#25254a' }}>
-                    <strong>Price:</strong> {item.price}
+                    <strong>Price: </strong>${item.price}
                   </Typography>
                 </CardContent>
                 <IconButton
