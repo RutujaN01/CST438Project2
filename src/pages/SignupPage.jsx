@@ -65,7 +65,7 @@ const SignupPage = () => {
     }
 
     try {
-      const data = await axios.post(`http://127.0.0.1:8000/users/newuser/`, {
+      const data = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/users/newuser/`, {
         "username": formData.fullName,
         "password": formData.password,
         "email": formData.email
