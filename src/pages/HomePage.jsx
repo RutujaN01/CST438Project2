@@ -218,7 +218,7 @@ const HomePage = () => {
           Discover Your Next Gadget in TechMart
         </Typography>
         <Button
-          onClick={handleSignIn}
+          onClick={() => navigate('/search')}
           sx={{
             position: 'absolute',
             bottom: '17%',
