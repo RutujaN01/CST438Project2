@@ -238,9 +238,11 @@ const SearchPage = () => {
           {searchResults.length > 0 ? (
             searchResults.map((item) => (
               <Box key={item.id} sx={{ padding: '20px', marginBottom: '10px', backgroundColor: '#f5f5f5', borderRadius: '10px', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)', position: 'relative' }}>
-                <Typography variant="h7" fontWeight='bold'>{item.name}</Typography>
-                <Typography>Description: {item.description}</Typography>
-                <Typography>Price: ${item.price}</Typography>
+                <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'black' }}>
+                  <Typography variant="h7" fontWeight="bold">{item.name}</Typography>
+                </a>
+                  <Typography>Description: {item.description}</Typography>
+                  <Typography>Price: ${item.price}</Typography>
                 
                 {/* Heart Icon with Toggle Wishlist */}
                 <IconButton
