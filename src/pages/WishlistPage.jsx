@@ -3,6 +3,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { FaUserCircle } from 'react-icons/fa'
 
 const View = ({ style, children }) => <div style={style}>{children}</div>;
 const Text = ({ style, children }) => <p style={style}>{children}</p>;
@@ -70,6 +71,7 @@ const WishlistPage = () => {
     <View style={styles.container}>
       <View style={styles.headerBar}>
         <Text style={styles.headerText}>My Wishlist</Text>
+        <FaUserCircle style={styles.userIcon} onClick={() => navigate('/profile')} />
       </View>
 
       <View style={styles.mainContent}>
@@ -84,10 +86,6 @@ const WishlistPage = () => {
             <Text style={styles.productName}>{item.name}</Text>
             <Text style={styles.productPrice}>${Number(item.price).toFixed(2)}</Text>
             <View style={styles.productActions}>
-              {/* Heart Icon for "liked" functionality */}
-              <Button onClick={() => console.log(`Liked ${item.name}`)} style={styles.actionButton}>
-                <FavoriteIcon style={{ color: 'red' }} />
-              </Button>
               {/* Delete Button */}
               <Button onClick={() => removeFromWishlist(item.id)} style={styles.actionButton}>
                 <DeleteIcon />
@@ -119,7 +117,7 @@ const styles = {
     top: 0,
     left: 0,
     zIndex: 1000,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   headerText: {
     color: '#fff',
@@ -165,6 +163,12 @@ const styles = {
     background: 'transparent',
     border: 'none',
     cursor: 'pointer',
+  },
+  userIcon: {
+    color: '#fff',
+    fontSize: '30px',
+    cursor: 'pointer',
+    marginRight: '20px',
   },
 };
 

@@ -27,7 +27,7 @@ const LoginPage = () => {
     e.preventDefault();
     
     try {
-        const res = await axios.post(`http://127.0.0.1:8000/users/login/`, {
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/users/login/`, {
             username: username,
             password: password
         });

@@ -130,7 +130,7 @@ const ItemsPage = () => {
 
     const handleAddNewItem = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/items/newitem', newItem, {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/items/newitem`, newItem, {
                 headers: {
                     "Authorization": accessToken
                 }
